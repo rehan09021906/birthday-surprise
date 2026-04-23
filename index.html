@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    text-align: center;
+    color: white;
+}
+
+/* Screens */
+.screen {
+    display: none;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    padding-top: 60px;
+}
+.active { display: block; }
+
+/* PIN dots */
+.dots { margin: 20px; }
+.dot {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    border: 2px solid white;
+    display: inline-block;
+    margin: 5px;
+}
+.filled { background: white; }
+
+/* Keypad */
+.keypad button {
+    width: 70px;
+    height: 70px;
+    margin: 8px;
+    font-size: 20px;
+    border-radius: 50%;
+    border: none;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 10px;
+}
+
+/* Gifts */
+.gifts {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.gift {
+    width: 120px;
+    height: 120px;
+    background: gold;
+    font-size: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* REAL CAKE BACKGROUND WITH CANDLES */
+.cake-bg {
+    background: url('https://images.unsplash.com/photo-1603532648955-039310d9ed75');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* Candles container (adjust position if needed) */
+.candles {
+    position: absolute;
+    top: 45%;   /* adjust based on image */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 25px;
+}
+
+/* Candle stick */
+.candle {
+    width: 6px;
+    height: 40px;
+    background: #ffd166;
+    border-radius: 2px;
+    position: relative;
+}
+
+/* Flame */
+.flame {
+    width: 14px;
+    height: 18px;
+    background: radial-gradient(circle, #fff 20%, orange 60%, red 100%);
+    border-radius: 50%;
+    position: absolute;
+    top: -18px;
+    left: -4px;
+    box-shadow: 0 0 15px orange;
+}
+
+/* Message */
+.wish-text {
+    margin-top: 40px;
+    font-size: 32px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Hidden */
+.hidden {
+    display: none;
+}
+
+/* Heart background */
+.love-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://www.transparenttextures.com/patterns/hearts.png');
+    background-size: 200px;
+    opacity: 0.3;
+    z-index: 0;
+}
+/* 🔥 SAMINA BACKGROUND (FIXED & CLEAR) */
+.name-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+    opacity: 0.35; /* increased visibility */
+    z-index: 0;
+    text-shadow:
+        0 0 10px #ff4d6d,
+        0 0 20px #ff4d6d,
+        0 0 40px #ff4d6d;
+}
+
+/* Overlay */
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+/* Content */
+.content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Polaroid */
+.polaroid {
+    background: white;
+    padding: 10px;
+    width: 150px;
+    display: inline-block;
+    margin: 10px;
+}
+.polaroid img { width: 100%; }
+
+/* 🔥 GIFT 3 PERFECT DESIGN */
+.gift3-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+/* Smaller polaroid strip */
+.polaroid-strip {
+    background: white;
+    padding: 8px;
+    width: 120px; /* reduced size */
+    box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+    border-radius: 5px;
+}
+
+.polaroid-strip img {
+    width: 100%;
+    margin-bottom: 6px;
+    border-radius: 3px;
+}
+
+.envelope {
+    background: #00aaff;
+    padding: 20px;
+    width: 260px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.letter {
+    background: white;
+    color: black;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.heart {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOCK -->
+<div id="lock" class="screen active" style="background:url('https://images.unsplash.com/photo-1519681393784-d120267933ba')">
+    <h2>Enter Passcode 🔒</h2>
+
+    <div class="dots" id="dots"></div>
+
+    <div class="keypad">
+        <button onclick="press(1)">1</button>
+        <button onclick="press(2)">2</button>
+        <button onclick="press(3)">3</button><br>
+        <button onclick="press(4)">4</button>
+        <button onclick="press(5)">5</button>
+        <button onclick="press(6)">6</button><br>
+        <button onclick="press(7)">7</button>
+        <button onclick="press(8)">8</button>
+        <button onclick="press(9)">9</button><br>
+        <button onclick="clearPin()">C</button>
+        <button onclick="press(0)">0</button>
+    </div>
+
+    <button onclick="checkPass()">OK</button>
+</div>
+
+<!-- READY -->
+<div id="ready" class="screen" style="background:bisque; position:relative;">
+
+    <!-- SAMINA BACKGROUND -->
+    <div class="name-bg">
+       SAMINA ❤️ SAMINA ❤️ SAMINA ❤️ SAMINA ❤️ SAMINA ❤️
+    </div>
+
+    <div class="overlay"></div>
+
+    <div class="content">
+        <h2>Are you ready for the surprise ??</h2>
+        <button onclick="show('gifts')">YES</button>
+        <button onclick="show('dare')">NO</button>
+    </div>
+
+</div>
+
+<!-- DARE -->
+<div id="dare" class="screen" style="background:black">
+    <h2>😡 HOW DARE YOU!</h2>
+    <button onclick="show('ready')">TRY AGAIN</button>
+</div>
+
+<!-- GIFTS -->
+<div id="gifts" class="screen" style="background:url('https://images.unsplash.com/photo-1513151233558-d860c5398176')">
+    <h2>Choose a Gift 🎁</h2>
+    <div class="gifts">
+        <div class="gift" onclick="show('cake')">🎁</div>
+        <div class="gift" onclick="show('gift2')">🎁</div>
+        <div class="gift" onclick="show('gift3')">🎁</div>
+    </div>
+</div>
+
+<!-- CAKE -->
+<div id="cake" class="screen cake-bg">
+
+    <div class="overlay"></div>
+
+    <div class="content">
+        <h2>🎂 Make a Wish My Girl 🎂</h2><br><br>
+
+        <!-- Candles (placed visually on cake) -->
+        <div class="candles">
+            <br><div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div><br><br>
+        </div>
+
+        <button onclick="blow()"> BLOW 💨</button><br><br>
+
+        <h1 id="wish" class="hidden wish-text">
+            🎉 HAPPY BIRTHDAY LOVE OF MY LIFE 🎂
+        </h1>
+
+        <button id="next1" class="hidden" onclick="show('gifts')">Next</button>
+    </div>
+
+</div>
+
+<!-- GIFT 2 -->
+<div id="gift2" class="screen" style="position:relative; background:#ff4d6d;">
+
+    <!-- Heart Background -->
+    <div class="love-bg"></div>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Content -->
+    <div class="content">
+        <h2>I MISS US 💋</h2>
+
+        <div>
+            <div class="polaroid"><img src="images/pic1.jpeg"></div>
+            <div class="polaroid"><img src="images/pic2.jpeg"></div>
+            <div class="polaroid"><img src="images/pic3.jpeg"></div>
+        </div>
+
+        <button onclick="show('gifts')">Next</button>
+    </div>
+
+</div>
+
+<!-- GIFT 3 -->
+<div id="gift3" class="screen" style="background:#007bff;">
+
+    <h2>💌 This Is For Youhh My Loveee 💌</h2>
+
+    <div class="gift3-container">
+
+        <div class="polaroid-strip">
+            <img src="images/pic4.jpeg">
+            <img src="images/pic5.jpeg">
+            <img src="images/pic6.jpeg">
+        </div>
+
+        <div class="envelope">
+            <div class="letter">
+                My Babbeee ❤️<br><br>
+                You are the reason behind my smile,  
+                the peace in my heart, and the happiness in my life.  
+                Every moment with you feels like a beautiful dream.  
+                I promise to love you more with each passing day,  
+                to stand beside you in every situation,  
+                and to never let you feel alone.  
+
+                You are my forever, my always, my everything 💌<br>
+
+                Happiest B'day my heart SAMMIII 🎉💖
+            </div>
+
+            <div class="heart">💋💋💋</div>
+        </div>
+
+    </div>
+
+    <button onclick="show('gifts')">Back</button>
+
+</div>
+
+<script>
+let pin="";
+
+function press(n){
+    if(pin.length<4){
+        pin+=n;
+        updateDots();
+    }
+}
+
+function clearPin(){
+    pin="";
+    updateDots();
+}
+
+function updateDots(){
+    let d=document.getElementById("dots");
+    d.innerHTML="";
+    for(let i=0;i<4;i++){
+        let dot=document.createElement("span");
+        dot.className="dot"+(i<pin.length?" filled":"");
+        d.appendChild(dot);
+    }
+}
+
+function checkPass(){
+    if(pin==="1906"){
+        show('ready');
+    } else {
+        alert("Wrong Password");
+        clearPin();
+    }
+}
+
+function show(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function blow(){
+    document.querySelectorAll('.flame').forEach(f => f.style.display="none");
+
+    document.getElementById("wish").classList.remove("hidden");
+    document.getElementById("next1").classList.remove("hidden");
+}
+
+</script>
+
+</body>
+</html>
